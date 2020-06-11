@@ -17,7 +17,7 @@
 
   /*Just return a value to define the module export.*/
   var watermark = {};
-
+  //默认配置
   var defaultSettings={
     watermark_id: 'wm_div_id',          //水印总体的id
     watermark_prefix: 'mask_div_id',    //小水印的id前缀
@@ -45,6 +45,7 @@
   /*加载水印*/
   var loadMark = function(settings) {
     /*采用配置项替换默认值，作用类似jquery.extend*/
+    //参数合并
     if(arguments.length===1&&typeof arguments[0] ==="object" ){
       var src=arguments[0]||{};
       for(key in src)
@@ -93,7 +94,7 @@
     /*创建水印外壳div*/
     var otdiv = document.getElementById(defaultSettings.watermark_id);
     var shadowRoot=null;
-
+    // 如果没有找到对应div，则创建
     if(!otdiv){
       otdiv =document.createElement('div');
       /*创建shadow dom*/
@@ -115,6 +116,7 @@
         watermark_hook_element.appendChild(otdiv);
       }
     }else if (otdiv.shadowRoot){
+      //如果找到直接复用即可
       shadowRoot = otdiv.shadowRoot;
     }
     /*三种情况下会重新计算水印列数和x方向水印间隔：1、水印列数设置为0，2、水印宽度大于页面宽度，3、水印宽度小于于页面宽度*/
@@ -241,6 +243,7 @@
       loadMark(globalSetting);
     }
   };
+  // 通过MutationObserver来监控dom是否被删除
   const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
   var watermarkDom = new MutationObserver(callback);
   var option = {
